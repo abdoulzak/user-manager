@@ -7,11 +7,8 @@ const User = require('../models/user');
 
 exports.verif = (req, res, next) => {
   var numero = req.body.numero+"";
-  if(numero == "" || numero == null ){
+  if(numero == "" || numero < 11 ){
     res.status(406).json({message: 'Choisir un numero de téléphone valide !'});
-  }else
-  if(numero.length < 11 || 11 < numero.length ){
-    res.status(406).json({message: 'Choisir un numero de téléphone valide !'+numero.length});
   }else
   User.findOne({
     numero: numero
@@ -43,14 +40,11 @@ const getcode = ()=>{
 exports.signup = (req, res, next) => {
   var numero = req.body.numero+"";
   var password = req.body.password+"";
-  if(numero == "" || numero == null ){
+  if(numero == "" || numero < 11 ){
     res.status(406).json({message: 'Choisir un numero de téléphone valide !'});
   }else
   if(password == "" || password == null || password.length < 6){
     res.status(406).json({message: 'Choisir un mot de passe valid !'});
-  }else
-  if(numero.length < 11 || 11 < numero.length ){
-    res.status(406).json({message: 'Choisir un numero de téléphone valide !'+numero.length});
   }else
   User.findOne({
     numero: req.body.numero
@@ -100,14 +94,11 @@ exports.signup = (req, res, next) => {
 exports.login = (req, res, next) => {
   var numero = req.body.numero+"";
   var password = req.body.password+"";
-  if(numero == "" || numero == null ){
+  if(numero == "" || numero < 11 ){
     res.status(406).json({message: 'Choisir un numero de téléphone valide !'});
   }else
   if(password == "" || password == null || password.length < 6){
     res.status(406).json({message: 'Choisir un mot de passe valid !'});
-  }else
-  if(numero.length < 11 || 11 < numero.length ){
-    res.status(406).json({message: 'Choisir un numero de téléphone valide!'});
   }else
   User.findOne({ numero: numero })
     .then((user) => {
