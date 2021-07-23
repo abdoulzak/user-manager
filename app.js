@@ -5,7 +5,6 @@ const userRoutes = require('./routes/user');
 var cors = require('cors');
 
 const uri = "mongodb+srv://zakiou2:eeEAwZPAHqje9iH@cluster0.t6gaj.mongodb.net/test?retryWrites=true&w=majority";
-
 //const uri = "mongodb://localhost:27017";
 const app = express();
 
