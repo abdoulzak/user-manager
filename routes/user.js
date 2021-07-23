@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const userControl = require('../controllers/user');
+const auth = require('../middleware/auth');
 
 router.post('/signup', userControl.signup);
 router.post('/login', userControl.login);
-router.get('/verif/:key', userControl.verif);
+router.post('/verif', auth, userControl.verif);
 
 module.exports = router;
