@@ -107,7 +107,7 @@ exports.login = (req, res, next) => {
     res.status(406).json({message: 'Choisir un mot de passe valid !'});
   }else
   if(numero.length < 11 || 11 < numero.length ){
-    res.status(406).json({message: 'Choisir un numero de téléphone valide !'+numero.length});
+    res.status(406).json({message: 'Choisir un numero de téléphone valide!'});
   }else
   User.findOne({ numero: numero })
     .then((user) => {
