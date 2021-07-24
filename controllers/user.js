@@ -40,13 +40,13 @@ const getcode = ()=>{
 exports.signup = (req, res, next) => {
   var numero = req.body.numero+"";
   var password = req.body.password+"";
-  if(numero == "" || numero < 11 ){
+  if(numero == "" || numero.length < 11 ){
     res.status(406).json({message: 'Choisir un numero de téléphone valide !'});
   }else
   if(password == "" || password == null || password.length < 6){
     res.status(406).json({message: 'Choisir un mot de passe valid !'});
   }else
-  User.findOne({
+  User.find({
     numero: req.body.numero
   }).then(
     (result) => {
@@ -70,7 +70,7 @@ exports.signup = (req, res, next) => {
             user.save()
               .then((response) => {
                 //envoie de mail ou de sms
-                res.status(201).json({ message: "Utilisateur inscrit" });
+                res.status(201).json({ message: "Utilisateur inscrit "+response });
               })
               .catch(error => {
                 res.status(500).json({ message: "une erreur vient de se produire contacter l'administrateur ou reéssayer" });
