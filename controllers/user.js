@@ -129,7 +129,7 @@ exports.login = (req, res, next) => {
                 token: jwt.sign(
                   { userId: user._id },
                   'Saving_Money_Secret_Token',
-                  { expiresIn: '1h' }
+                  { expiresIn: '1d' }
                 ),expiresIn: '1' 
               });
             }
