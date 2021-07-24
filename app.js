@@ -33,5 +33,9 @@ app.use(function (req, res, next) {
   });*/
     app.use(bodyParser.json());
     app.use('/auth', userRoutes);
+    app.get('/', (req, res, next) => {
+      res.status(200);
+  });
+  
 
 module.exports = app;
