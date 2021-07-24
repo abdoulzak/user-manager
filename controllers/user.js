@@ -51,7 +51,7 @@ exports.signup = (req, res, next) => {
   }).then(
     (result) => {
       if (result){
-        res.status(406).json({message: 'Le numero est déja utilisé '+result});
+        res.status(406).json({message: 'Le numero est déja utilisé '});
       }else {
         bcrypt.hash(password, 10)
           .then(hash => {
