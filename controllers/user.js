@@ -40,18 +40,18 @@ const getcode = ()=>{
 exports.signup = (req, res, next) => {
   var numero = req.body.numero+"";
   var password = req.body.password+"";
-  if(numero == "" || numero.length < 11 ){
+  if(numero == "" || numero.length < 11 || 11 < numero.length ){
     res.status(406).json({message: 'Choisir un numero de téléphone valide !'});
   }else
   if(password == "" || password == null || password.length < 6){
     res.status(406).json({message: 'Choisir un mot de passe valid !'});
   }else
-  User.find({
-    numero: req.body.numero
+  User.findOne({
+    numero: numero
   }).then(
     (result) => {
       if (result){
-        res.status(406).json({message: 'Le numero est déja utilisé'});
+        res.status(406).json({message: 'Le numero est déja utilisé '+result});
       }else {
         bcrypt.hash(password, 10)
           .then(hash => {
@@ -61,7 +61,7 @@ exports.signup = (req, res, next) => {
               firstName: req.body.firstName,
               ref: "dustring",
               password: hash,
-              numero: req.body.numero,
+              numero: numero,
               status: "string value",
               frozen: false,
               creatDate: new Date(),
@@ -70,7 +70,7 @@ exports.signup = (req, res, next) => {
             user.save()
               .then((response) => {
                 //envoie de mail ou de sms
-                res.status(201).json({ message: "Utilisateur inscrit "+response });
+                res.status(201).json({ message: "Utilisateur inscrit " });
               })
               .catch(error => {
                 res.status(500).json({ message: "une erreur vient de se produire contacter l'administrateur ou reéssayer" });
@@ -90,11 +90,24 @@ exports.signup = (req, res, next) => {
   );
 };
 
+exports.user = (req, res, next) => {
+  
+  User.find().then(
+    (result) => {
+      res.status(200).json({message: result});  
+    }
+  ).catch(
+    (data) => {
+      res.status(500).json( {error: data}) 
+    }
+  );
+};
+
 
 exports.login = (req, res, next) => {
   var numero = req.body.numero+"";
   var password = req.body.password+"";
-  if(numero == "" || numero < 11 ){
+  if(numero == "" || numero.length < 11 || 11 < numero.length ){
     res.status(406).json({message: 'Choisir un numero de téléphone valide !'});
   }else
   if(password == "" || password == null || password.length < 6){
@@ -103,12 +116,12 @@ exports.login = (req, res, next) => {
   User.findOne({ numero: numero })
     .then((user) => {
       if (!user) {
-        res.status(204).json("L'utilisateur n'existe pas !");
+        res.status(405).json("L'utilisateur n'existe pas !");
       }else{
         bcrypt.compare(password, user.password)
           .then(valid => {
             if (valid == false) {
-              res.status(204).json({message: "Mot de passe incorrecte !"}); 
+              res.status(405).json({message: "Mot de passe incorrecte !"}); 
             }else{
               res.status(200).json({
                 userId: user.firstId,
