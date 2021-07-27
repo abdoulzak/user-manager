@@ -7,7 +7,6 @@ const User = require('../models/user');
 
 exports.verif = (req, res, next) => {
   var numero = req.body.numero+"";
-  console.log(req);
   if(numero == "" || numero < 11 ){
     res.status(406).json({message: 'Choisir un numero de téléphone valide !'});
   }else
@@ -77,7 +76,11 @@ exports.signup = (req, res, next) => {
                 res.status(500).json({ message: "une erreur vient de se produire contacter l'administrateur ou reéssayer" });
               });
 
-          })
+          },
+          (error => {
+            res.status(203).json({ error });
+          } 
+          )
           .catch(error => {
             res.status(500).json({ error });
           } 
