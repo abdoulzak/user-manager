@@ -2,8 +2,10 @@
 const jwt = require('jsonwebtoken');
 
 module.exports = (req, res, next) => {
+  //console.log(jwt.verify(req.headers.authorization, 'Saving_Money_Secret_Token'));
+  //console.log(req.body);
   try {
-    const token = req.headers.authorization.split(' ')[1];
+    const token = req.headers.authorization;
     const decodedToken = jwt.verify(token, 'Saving_Money_Secret_Token');
     const userId = decodedToken.userId;
     if (req.body.userId !== userId) {

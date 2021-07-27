@@ -7,6 +7,7 @@ const User = require('../models/user');
 
 exports.verif = (req, res, next) => {
   var numero = req.body.numero+"";
+  console.log(req);
   if(numero == "" || numero < 11 ){
     res.status(406).json({message: 'Choisir un numero de téléphone valide !'});
   }else
@@ -15,7 +16,7 @@ exports.verif = (req, res, next) => {
   }).then(
     (response) => {
       if (response){
-        res.status(200).json({ message: response });
+        res.status(200).json({ data: true, message: response });
       }else{
         res.status(406).json({ message: "non autorisé !" });
       }
@@ -51,7 +52,7 @@ exports.signup = (req, res, next) => {
   }).then(
     (result) => {
       if (result){
-        res.status(406).json({message: 'Le numero est déja utilisé '});
+        res.status(406).json({message: 'Le numero est déja utilisé !'});
       }else {
         bcrypt.hash(password, 10)
           .then(hash => {
@@ -105,8 +106,9 @@ exports.user = (req, res, next) => {
 
 
 exports.login = (req, res, next) => {
-  var numero = req.body.numero+"";
-  var password = req.body.password+"";
+  console.log(req.body);
+  const numero = req.body.numero+"";
+  const password = req.body.password+"";
   if(numero == "" || numero.length < 11 || 11 < numero.length ){
     res.status(406).json({message: 'Choisir un numero de téléphone valide !'});
   }else
@@ -124,7 +126,7 @@ exports.login = (req, res, next) => {
               res.status(405).json({message: "Mot de passe incorrecte !"}); 
             }else{
               res.status(200).json({
-                userId: user.firstId,
+                userId: user._id,
                 userPhone: user.numero,
                 token: jwt.sign(
                   { userId: user._id },
