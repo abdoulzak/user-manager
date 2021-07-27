@@ -76,11 +76,7 @@ exports.signup = (req, res, next) => {
                 res.status(500).json({ message: "une erreur vient de se produire contacter l'administrateur ou reéssayer" });
               });
 
-          },
-          (error => {
-            res.status(203).json({ error });
-          } 
-          )
+          })
           .catch(error => {
             res.status(500).json({ error });
           } 
