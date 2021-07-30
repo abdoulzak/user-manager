@@ -7,7 +7,7 @@ const User = require('../models/user');
 
 exports.verif = (req, res, next) => {
   var numero = req.body.numero+"";
-  if(numero == "" || numero < 11 ){
+  if(numero.length != 12 ){
     res.status(406).json({message: 'Choisir un numero de téléphone valide !'});
   }else
   User.findOne({
@@ -40,7 +40,7 @@ const getcode = ()=>{
 exports.signup = (req, res, next) => {
   var numero = req.body.numero+"";
   var password = req.body.password+"";
-  if(numero == "" || numero.length < 11 || 11 < numero.length ){
+  if(numero.length != 12 ){
     res.status(406).json({message: 'Choisir un numero de téléphone valide !'});
   }else
   if(password == "" || password == null || password.length < 6){
@@ -105,10 +105,9 @@ exports.user = (req, res, next) => {
 
 
 exports.login = (req, res, next) => {
-  console.log(req.body);
   const numero = req.body.numero+"";
   const password = req.body.password+"";
-  if(numero == "" || numero.length < 11 || 11 < numero.length ){
+  if( numero.length != 12 ){
     res.status(406).json({message: 'Choisir un numero de téléphone valide !'});
   }else
   if(password == "" || password == null || password.length < 6){
@@ -142,16 +141,4 @@ exports.login = (req, res, next) => {
     .catch(error => res.status(500).json({message: "Une erreur vient de se produire!"}));
 }
 
-exports.deleteUser = (req, res, next) => {/*
-  Pronostique.findOne({ _id: req.body.id })
-    .then(pronostique => {
-        Pronostique.deleteOne({ _id: req.body.id })
-          .then(() => res.status(200).json({ message: 'Supprimé !'}))
-          .catch(error => res.status(401).json({
-            error: new Error('Invalid request!')
-          }));
-    })
-    .catch(error => res.status(401).json({
-      error: new Error('Invalid request!')
-    }));*/
-};
+exports.deleteUser = (req, res, next) => {};
